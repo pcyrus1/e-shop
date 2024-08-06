@@ -1,17 +1,15 @@
 const User = require("../models/User");
+const ayncHandler = require("express-async-handler");
 
-const createUser = async (req, res) => {
+const createUser = ayncHandler(async (req, res) => {
   const email = req.body.email;
   const findUser = await User.findOne({ email: email });
   if (!findUser) {
     const newUser = await User.create(req.body);
     res.send(newUser);
   } else {
-    res.json({
-      message: "email already used",
-      success: false,
-    });
+    throw new Error("Email already in use");
   }
-};
+});
 
 module.exports = { createUser };
