@@ -1,3 +1,4 @@
+const expressAsyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const ayncHandler = require("express-async-handler");
 
@@ -12,4 +13,14 @@ const createUser = ayncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser };
+const login = ayncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const findUser = await User.findOne({ email });
+  if (findUser && (await findUser.isPasswordMatched(password))) {
+    res.json(findUser);
+  } else {
+    throw new Error("wrong credentials");
+  }
+});
+
+module.exports = { createUser, login };
