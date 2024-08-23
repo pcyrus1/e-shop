@@ -4,6 +4,6 @@ const { authUser } = require("../middlewares/authUser");
 const router = express.Router();
 
 router.post("/", createProduct);
-router.get("/", authUser, getProducts);
+router.get("/", getProducts);
 
 module.exports = router;
