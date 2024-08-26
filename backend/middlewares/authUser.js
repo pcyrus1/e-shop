@@ -13,7 +13,7 @@ const getuser = async (id) => {
 const authUser = async (req, res, next, userId) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    const authUser = jwt.verify(token, "my-secret");
+    const authUser = jwt.verify(token, process.env.JWT_SECRET);
     req.auth = await getuser(authUser.userId);
     req.auth.model = "user";
     next();
